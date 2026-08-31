@@ -3,6 +3,7 @@ import "./App.css";
 import img1 from "./img/img1.jpg";
 import img2 from "./img/img2.jpg";
 import img3 from "./img/img3.jpg";
+import img4 from "./img/img4.png";
 import { Divider, Col, Row, Select, Space, DatePicker } from "antd";
 import { FacebookFilled, InstagramFilled } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -67,9 +68,7 @@ function App() {
           <h2>松風鍋物</h2>
           <button>中文</button>
         </div>
-        <div className="Divider">
-          <Divider />
-        </div>
+        <Divider />
       </header>
       <main>
         <div className="hero">
@@ -97,9 +96,7 @@ function App() {
             </a>
           </div>
         </div>
-        <div className="Divider">
-          <Divider />
-        </div>
+        <Divider />
         <div>
           <div>
             <div>松風鍋物</div>
@@ -110,15 +107,13 @@ function App() {
             <div>地圖 查看地圖</div>
           </div>
         </div>
-        <div className="Divider">
-          <Divider />
-        </div>
+        <Divider />
         {tab === "booking" && (
           <>
             <div>
               <p>訂位指南</p>
-              <p>營業時間：AM 11:00- AM 02:00</p>
-              <p>（最後收客時間 AM 01:00 ）</p>
+              <p>營業時間：AM 11:00~21:00</p>
+              <p>（最後收客時間 19:45 ）</p>
 
               <p>＃開放30天內預約訂位</p>
               <p>✅店內禁止攜帶寵物，敬請見諒</p>
@@ -128,9 +123,7 @@ function App() {
                 線上預約提供1-6人訂位，若超過6人訂位請於營業時間內撥打門市專線進行訂位
               </p>
             </div>
-            <div className="Divider">
-              <Divider />
-            </div>
+            <Divider />
             <div>
               <Row>
                 <Col xs={16}>用餐人數</Col>
@@ -140,44 +133,46 @@ function App() {
                 <Row>
                   <Col xs={8}>
                     <Select
-                      defaultValue="大人"
+                      defaultValue={2}
                       style={{ width: "90%" }}
                       onChange={handleChange}
                       options={[
-                        { value: "adult1", label: "一位大人" },
-                        { value: "adult2", label: "二位大人" },
-                        { value: "adult3", label: "三位大人" },
-                        { value: "adult4", label: "四位大人", disabled: false },
-                        { value: "adult5", label: "五位大人" },
-                        { value: "adult6", label: "六位大人" },
+                        { value: 1, label: "1位大人" },
+                        { value: 2, label: "2位大人" },
+                        { value: 3, label: "3位大人" },
+                        { value: 4, label: "4位大人", disabled: false },
+                        { value: 5, label: "5位大人" },
+                        { value: 6, label: "6位大人" },
                       ]}
                     />
                   </Col>
                   <Col xs={8}>
                     <Select
-                      defaultValue="小孩"
+                      defaultValue={0}
                       style={{ width: "90%" }}
                       onChange={handleChange}
                       options={[
-                        { value: "kid1", label: "一位小孩" },
-                        { value: "kid2", label: "二位小孩" },
-                        { value: "kid3", label: "三位小孩" },
-                        { value: "kid4", label: "四位小孩", disabled: false },
-                        { value: "kid5", label: "五位小孩" },
-                        { value: "kid6", label: "六位小孩" },
+                        { value: 0, label: "0位小孩" },
+                        { value: 1, label: "1位小孩" },
+                        { value: 2, label: "2位小孩" },
+                        { value: 3, label: "3位小孩" },
+                        { value: 4, label: "4位小孩", disabled: false },
+                        { value: 5, label: "5位小孩" },
+                        { value: 6, label: "6位小孩" },
                       ]}
                     />
                   </Col>
                   <Col xs={8}>
-                    <DatePicker style={{ width: "90%" }} />
+                    <DatePicker
+                      defaultValue={dayjs()}
+                      style={{ width: "90%" }}
+                    />
                   </Col>
                 </Row>
               </div>
               <div className="Row">
                 <div>用餐時段</div>
-                <div>
-                  <Divider>中午</Divider>
-                </div>
+                <Divider>中午</Divider>
                 <div>
                   <Row gutter={[20, 20]}>
                     {noonReserve.map((time) => (
@@ -192,26 +187,32 @@ function App() {
                     ))}
                   </Row>
                 </div>
-                <div>
-                  <Divider>下午</Divider>
-                </div>
+                <Divider>下午</Divider>
                 <div>
                   <Row gutter={[20, 20]}>
                     {pmReserve.map((time) => (
                       <Col key={time} xs={4}>
-                        <button>{time}</button>
+                        <button
+                          className={reservedTime === time ? "active" : ""}
+                          onClick={() => setReservedTime(time)}
+                        >
+                          {time}
+                        </button>
                       </Col>
                     ))}
                   </Row>
                 </div>
-                <div>
-                  <Divider>晚上</Divider>
-                </div>
+                <Divider>晚上</Divider>
                 <div>
                   <Row gutter={[20, 20]}>
                     {nightReserve.map((time) => (
                       <Col key={time} xs={4}>
-                        <button>{time}</button>
+                        <button
+                          className={reservedTime === time ? "active" : ""}
+                          onClick={() => setReservedTime(time)}
+                        >
+                          {time}
+                        </button>
                       </Col>
                     ))}
                   </Row>
@@ -221,18 +222,14 @@ function App() {
                 <h4>定位以外需求請撥打</h4>
                 <p>電話 06-000000</p>
               </div>
-              <div className="Divider">
-                <Divider />
-              </div>
+              <Divider />
               <div>
                 <h4>餐廳資訊</h4>
                 <div className="branch-info">
                   <div>
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7346.008728452863!2d120.186491!3d22.986867!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e767437b90013%3A0x65868f7e8821835e!2z6LyV5LqV5r6k6Y2L54mpIOWPsOWNl-W6lw!5e0!3m2!1szh-TW!2sus!4v1787563780523!5m2!1szh-TW!2sus"
-                      width="600"
-                      height="450"
-                      style={{ border: "0" }}
+                      title="餐廳位置地圖"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.6059270428705!2d120.15804411115438!3d23.001514217026344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e767378e3e467%3A0x9b1e15dd6ac9adf1!2z5a6J5bmz5Y-k5aChICjnhrHomK3pga7ln44p!5e0!3m2!1szh-TW!2sus!4v1788183945909!5m2!1szh-TW!2sus"
                       allowFullScreen={true}
                       loading="lazy"
                       referrerPolicy="strict-origin-when-cross-origin"
@@ -253,14 +250,12 @@ function App() {
                     </div>
                     <div>
                       <div>料理</div>
-                      <p>XX</p>
+                      <p>鍋物</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="Divider">
-                <Divider />
-              </div>
+              <Divider />
             </div>
           </>
         )}
@@ -269,13 +264,12 @@ function App() {
             <h4>菜單</h4>
           </div>
           <div className="branch-menu">
+            <img className="menu-img" src={img4} alt="宣傳圖" />
             <img className="menu-img" src={img2} alt="menu" />
             <img className="menu-img" src={img1} alt="menu" />
           </div>
         </div>
-        <div className="Divider">
-          <Divider />
-        </div>
+        <Divider />
         {tab === "order" && (
           <>
             <div>
@@ -299,9 +293,7 @@ function App() {
                 <div>品項</div>
               </div>
             </div>
-            <div className="Divider">
-              <Divider />
-            </div>
+            <Divider />
           </>
         )}
       </main>
