@@ -4,7 +4,7 @@ import img1 from "./img/img1.jpg";
 import img2 from "./img/img2.jpg";
 import img3 from "./img/img3.jpg";
 import img4 from "./img/img4.png";
-import { Divider, Col, Row, Select, Space, DatePicker } from "antd";
+import { Divider, Col, Row, Select, Space, DatePicker, Button } from "antd";
 import { FacebookFilled, InstagramFilled } from "@ant-design/icons";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -61,6 +61,10 @@ function App() {
   };
 
   const [reservedTime, setReservedTime] = useState("");
+
+  const [adult, setAdult] = useState(2);
+  const [kid, setKid] = useState(0);
+  const [data, setData] = useState(dayjs());
   return (
     <div>
       <header>
@@ -133,38 +137,41 @@ function App() {
                 <Row>
                   <Col xs={8}>
                     <Select
-                      defaultValue={2}
+                      value={adult}
                       style={{ width: "90%" }}
-                      onChange={handleChange}
+                      onChange={(value) => setAdult(value)}
                       options={[
-                        { value: 1, label: "1位大人" },
-                        { value: 2, label: "2位大人" },
-                        { value: 3, label: "3位大人" },
-                        { value: 4, label: "4位大人", disabled: false },
-                        { value: 5, label: "5位大人" },
-                        { value: 6, label: "6位大人" },
+                        { value: 1, label: "1位大人", disabled: 1 + kid > 6 },
+                        { value: 2, label: "2位大人", disabled: 2 + kid > 6 },
+                        { value: 3, label: "3位大人", disabled: 3 + kid > 6 },
+                        { value: 4, label: "4位大人", disabled: 4 + kid > 6 },
+                        { value: 5, label: "5位大人", disabled: 5 + kid > 6 },
+                        { value: 6, label: "6位大人", disabled: 6 + kid > 6 },
                       ]}
                     />
                   </Col>
                   <Col xs={8}>
                     <Select
-                      defaultValue={0}
+                      value={kid}
                       style={{ width: "90%" }}
-                      onChange={handleChange}
+                      onChange={(value) => setKid(value)}
                       options={[
-                        { value: 0, label: "0位小孩" },
-                        { value: 1, label: "1位小孩" },
-                        { value: 2, label: "2位小孩" },
-                        { value: 3, label: "3位小孩" },
-                        { value: 4, label: "4位小孩", disabled: false },
-                        { value: 5, label: "5位小孩" },
-                        { value: 6, label: "6位小孩" },
+                        { value: 0, label: "0位小孩", disabled: 0 + adult > 6 },
+                        { value: 1, label: "1位小孩", disabled: 1 + adult > 6 },
+                        { value: 2, label: "2位小孩", disabled: 2 + adult > 6 },
+                        { value: 3, label: "3位小孩", disabled: 3 + adult > 6 },
+                        { value: 4, label: "4位小孩", disabled: 4 + adult > 6 },
+                        { value: 5, label: "5位小孩", disabled: 5 + adult > 6 },
+                        { value: 6, label: "6位小孩", disabled: 6 + adult > 6 },
                       ]}
                     />
                   </Col>
                   <Col xs={8}>
                     <DatePicker
-                      defaultValue={dayjs()}
+                      value={data}
+                      onChange={(value) =>
+                        setData(value)
+                      } /*onChange是元件自己判斷「值真的定了」之後才呼叫*/
                       style={{ width: "90%" }}
                     />
                   </Col>
@@ -268,6 +275,11 @@ function App() {
             <img className="menu-img" src={img2} alt="menu" />
             <img className="menu-img" src={img1} alt="menu" />
           </div>
+        </div>
+        <div className="reserve">
+          <button className="reserveBtn" disabled={reservedTime === ""}>
+            {reservedTime === "" ? "請選擇用餐時段" : "預約"}
+          </button>
         </div>
         <Divider />
         {tab === "order" && (
