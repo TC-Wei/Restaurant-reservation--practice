@@ -56,15 +56,11 @@ const nightReserve = [
 function App() {
   const [tab, setTab] = useState("booking");
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
   const [reservedTime, setReservedTime] = useState("");
 
   const [adult, setAdult] = useState(2);
   const [kid, setKid] = useState(0);
-  const [data, setData] = useState(dayjs());
+  const [date, setDate] = useState(dayjs());
   return (
     <div>
       <header>
@@ -168,9 +164,9 @@ function App() {
                   </Col>
                   <Col xs={8}>
                     <DatePicker
-                      value={data}
+                      value={date}
                       onChange={(value) =>
-                        setData(value)
+                        setDate(value)
                       } /*onChange是元件自己判斷「值真的定了」之後才呼叫*/
                       style={{ width: "90%" }}
                     />
